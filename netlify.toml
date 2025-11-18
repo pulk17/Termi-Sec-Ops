@@ -1,0 +1,61 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--prefix=/dev/null"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.github.com https://snyk.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://github.com https://avatars.githubusercontent.com https://raw.githubusercontent.com; connect-src 'self' https://api.github.com https://snyk.io https://*.snyk.io https://*.amazonaws.com https://osv.dev https://registry.npmjs.org wss://api.github.com; object-src 'none'; media-src 'self'; frame-src 'none'; child-src 'none'; worker-src 'self' blob:; manifest-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(self), encrypted-media=(self), fullscreen=(self), picture-in-picture=(self)"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  NEXT_PUBLIC_GITHUB_CLIENT_ID = "your_github_client_id"
+  NEXT_PUBLIC_SNYK_TOKEN = "your_snyk_token"
+  # AWS credentials must be server-side only
+  AWS_ACCESS_KEY_ID = "your_aws_access_key"
+  AWS_SECRET_ACCESS_KEY = "your_aws_secret_key"
+  AWS_REGION = "us-east-1"
+  NEXT_PUBLIC_EMAILJS_SERVICE_ID = "your_emailjs_service_id"
+  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID = "your_emailjs_template_id"
+  NEXT_PUBLIC_EMAILJS_PUBLIC_KEY = "your_emailjs_public_key"
+
+[context.deploy-preview.environment]
+  NEXT_PUBLIC_GITHUB_CLIENT_ID = "your_github_client_id"
+  NEXT_PUBLIC_SNYK_TOKEN = "your_snyk_token"
+  # AWS credentials must be server-side only
+  AWS_ACCESS_KEY_ID = "your_aws_access_key"
+  AWS_SECRET_ACCESS_KEY = "your_aws_secret_key"
+  AWS_REGION = "us-east-1"
+  NEXT_PUBLIC_EMAILJS_SERVICE_ID = "your_emailjs_service_id"
+  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID = "your_emailjs_template_id"
+  NEXT_PUBLIC_EMAILJS_PUBLIC_KEY = "your_emailjs_public_key"

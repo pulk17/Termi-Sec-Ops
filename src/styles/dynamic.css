@@ -1,0 +1,55 @@
+/* Dynamic styles for CSP compliance */
+
+/* Vulnerability severity colors */
+[data-severity="critical"] {
+  color: #dc2626; /* red-600 */
+}
+
+[data-severity="high"] {
+  color: #ea580c; /* orange-600 */
+}
+
+[data-severity="medium"] {
+  color: #d97706; /* amber-600 */
+}
+
+[data-severity="low"] {
+  color: #65a30d; /* lime-600 */
+}
+
+/* Progress bar transforms */
+[data-progress] {
+  transform: translateX(calc(-100% + var(--progress-value, 0) * 1%));
+}
+
+/* Scan progress bar widths */
+.scan-progress-bar[data-progress="0"] { width: 0%; }
+.scan-progress-bar[data-progress="1"] { width: 1%; }
+.scan-progress-bar[data-progress="2"] { width: 2%; }
+.scan-progress-bar[data-progress="3"] { width: 3%; }
+.scan-progress-bar[data-progress="4"] { width: 4%; }
+.scan-progress-bar[data-progress="5"] { width: 5%; }
+.scan-progress-bar[data-progress="10"] { width: 10%; }
+.scan-progress-bar[data-progress="15"] { width: 15%; }
+.scan-progress-bar[data-progress="20"] { width: 20%; }
+.scan-progress-bar[data-progress="25"] { width: 25%; }
+.scan-progress-bar[data-progress="30"] { width: 30%; }
+.scan-progress-bar[data-progress="35"] { width: 35%; }
+.scan-progress-bar[data-progress="40"] { width: 40%; }
+.scan-progress-bar[data-progress="45"] { width: 45%; }
+.scan-progress-bar[data-progress="50"] { width: 50%; }
+.scan-progress-bar[data-progress="55"] { width: 55%; }
+.scan-progress-bar[data-progress="60"] { width: 60%; }
+.scan-progress-bar[data-progress="65"] { width: 65%; }
+.scan-progress-bar[data-progress="70"] { width: 70%; }
+.scan-progress-bar[data-progress="75"] { width: 75%; }
+.scan-progress-bar[data-progress="80"] { width: 80%; }
+.scan-progress-bar[data-progress="85"] { width: 85%; }
+.scan-progress-bar[data-progress="90"] { width: 90%; }
+.scan-progress-bar[data-progress="95"] { width: 95%; }
+.scan-progress-bar[data-progress="100"] { width: 100%; }
+
+/* Fallback for any other progress values */
+.scan-progress-bar:not([data-progress="0"]):not([data-progress="1"]):not([data-progress="2"]):not([data-progress="3"]):not([data-progress="4"]):not([data-progress="5"]):not([data-progress="10"]):not([data-progress="15"]):not([data-progress="20"]):not([data-progress="25"]):not([data-progress="30"]):not([data-progress="35"]):not([data-progress="40"]):not([data-progress="45"]):not([data-progress="50"]):not([data-progress="55"]):not([data-progress="60"]):not([data-progress="65"]):not([data-progress="70"]):not([data-progress="75"]):not([data-progress="80"]):not([data-progress="85"]):not([data-progress="90"]):not([data-progress="95"]):not([data-progress="100"]) {
+  width: 0%;
+}
