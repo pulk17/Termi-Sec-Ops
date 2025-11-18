@@ -1024,26 +1024,9 @@ SOFTWARE.
 
 ---
 
-## 💬 Community
-
-- **GitHub Discussions**: [Join the conversation](https://github.com/yourusername/devsecops-pipeline/discussions)
-- **Twitter**: [@devsecops_pipe](https://twitter.com/devsecops_pipe)
-- **Discord**: [Join our server](https://discord.gg/devsecops)
-- **Blog**: [Read our articles](https://blog.yourdomain.com)
-
----
-
-## 📧 Contact
-
-- **Email**: support@yourdomain.com
-- **Security Issues**: security@yourdomain.com
-- **Website**: [https://yourdomain.com](https://yourdomain.com)
-
----
-
 <div align="center">
 
-**Built with ❤️ by the DevSecOps community**
+**Built with ❤️ by the DevSecOps ke Khapeetar community**
 
 [⬆ Back to Top](#️-devsecops-security-pipeline)
 
