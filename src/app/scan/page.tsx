@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Shield, Github, Settings, Play, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -20,17 +20,23 @@ export default function ScanPage() {
   const [githubToken, setGithubToken] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [currentScanId, setCurrentScanId] = useState<string>('');
+  const [isMounted, setIsMounted] = useState(false);
   const [scanOptions, setScanOptions] = useState({
     enableOSV: true,
     enableNpmAudit: true,
-    enableSnyk: false,
-    enableTrivy: true,
+    enableSnyk: false, // Disable Snyk by default (requires CLI)
+    enableTrivy: false, // Disable Trivy by default (requires Docker)
     enableAWSScanning: false,
     enableGitHubActions: false,
     scanDependencies: true,
     scanCode: true,
-    scanContainers: true,
+    scanContainers: false, // Disable container scanning by default
   });
+
+  // Fix hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleScan = async () => {
     if (!repoUrl.trim()) {

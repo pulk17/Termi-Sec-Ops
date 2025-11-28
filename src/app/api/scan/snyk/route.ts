@@ -36,10 +36,19 @@ export async function POST(request: NextRequest) {
     console.log(`🔍 Snyk CLI scanning repository: ${repository} (${packageManager})`);
 
     // Check if Snyk CLI is installed
+    let snykInstalled = false;
     try {
-      await execAsync('snyk --version', { timeout: 5000 });
+      const { stdout } = await execAsync('snyk --version', { timeout: 5000 });
+      console.log(`✅ Snyk CLI detected: ${stdout.trim()}`);
+      snykInstalled = true;
     } catch (error) {
-      console.warn('⚠️  Snyk CLI not installed, falling back to mock data');
+      console.warn('⚠️  Snyk CLI not installed or not in PATH');
+      console.warn('   Install with: npm install -g snyk');
+      console.warn('   Or: brew install snyk/tap/snyk (macOS)');
+      console.warn('   Falling back to mock data for demonstration');
+    }
+
+    if (!snykInstalled) {
       return NextResponse.json(generateMockSnykResults(repository));
     }
 

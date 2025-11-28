@@ -490,6 +490,13 @@ export default function ScanResultsPage() {
   // Convert map to array
   const vulnerabilities = Array.from(vulnerabilitiesMap.values());
 
+  // Calculate actual counts from displayed vulnerabilities
+  const displayedCriticalCount = vulnerabilities.filter(v => v.severity === 'critical').length;
+  const displayedHighCount = vulnerabilities.filter(v => v.severity === 'high').length;
+  const displayedMediumCount = vulnerabilities.filter(v => v.severity === 'medium').length;
+  const displayedLowCount = vulnerabilities.filter(v => v.severity === 'low').length;
+  const displayedTotalCount = vulnerabilities.length;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
       {/* Navigation */}
@@ -593,7 +600,7 @@ export default function ScanResultsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold terminal-glow">
-                  {scanResult.totalVulnerabilities}
+                  {displayedTotalCount}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Security vulnerabilities found
@@ -608,7 +615,7 @@ export default function ScanResultsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-red-500 glitch-text">
-                  {scanResult.criticalCount}
+                  {displayedCriticalCount}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Immediate attention required
@@ -623,7 +630,7 @@ export default function ScanResultsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-orange-500 terminal-glow">
-                  {scanResult.highCount}
+                  {displayedHighCount}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Should be fixed soon
@@ -640,10 +647,10 @@ export default function ScanResultsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-500 terminal-glow">
-                  {scanResult.mediumCount + scanResult.lowCount}
+                  {displayedMediumCount + displayedLowCount}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {scanResult.mediumCount}M • {scanResult.lowCount}L
+                  {displayedMediumCount}M • {displayedLowCount}L
                 </p>
               </CardContent>
             </Card>
@@ -844,8 +851,45 @@ export default function ScanResultsPage() {
                                       <Sparkles className="mr-2 h-4 w-4 text-purple-500" />
                                       AI-Powered Fix Suggestion
                                     </h4>
-                                    <div className="text-sm text-muted-foreground bg-purple-50 dark:bg-purple-950/20 p-3 rounded-md prose prose-sm max-w-none whitespace-pre-wrap">
-                                      {aiSuggestions.get(uniqueKey)}
+                                    <div className="text-sm text-muted-foreground bg-purple-50 dark:bg-purple-950/20 p-3 rounded-md prose prose-sm max-w-none">
+                                      {aiSuggestions.get(uniqueKey)?.split('\n').map((line, idx) => {
+                                        // Handle headers
+                                        if (line.startsWith('## ')) {
+                                          return <h3 key={idx} className="text-base font-bold mt-3 mb-2 text-purple-900 dark:text-purple-100">{line.replace('## ', '')}</h3>;
+                                        }
+                                        if (line.startsWith('# ')) {
+                                          return <h2 key={idx} className="text-lg font-bold mt-4 mb-2 text-purple-900 dark:text-purple-100">{line.replace('# ', '')}</h2>;
+                                        }
+                                        // Handle bold text
+                                        if (line.includes('**')) {
+                                          const parts = line.split('**');
+                                          return (
+                                            <p key={idx} className="mb-2">
+                                              {parts.map((part, i) => i % 2 === 1 ? <strong key={i} className="font-semibold">{part}</strong> : part)}
+                                            </p>
+                                          );
+                                        }
+                                        // Handle code blocks
+                                        if (line.startsWith('```')) {
+                                          return null; // Skip code fence markers
+                                        }
+                                        if (line.trim().startsWith('`') && line.trim().endsWith('`')) {
+                                          return <code key={idx} className="block bg-gray-800 text-green-400 p-2 rounded my-2 font-mono text-xs">{line.trim().slice(1, -1)}</code>;
+                                        }
+                                        // Handle list items
+                                        if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                                          return <li key={idx} className="ml-4 mb-1">{line.trim().substring(2)}</li>;
+                                        }
+                                        if (/^\d+\./.test(line.trim())) {
+                                          return <li key={idx} className="ml-4 mb-1 list-decimal">{line.trim().replace(/^\d+\.\s*/, '')}</li>;
+                                        }
+                                        // Handle empty lines
+                                        if (line.trim() === '') {
+                                          return <br key={idx} />;
+                                        }
+                                        // Regular paragraph
+                                        return <p key={idx} className="mb-2">{line}</p>;
+                                      })}
                                     </div>
                                   </div>
                                 )}

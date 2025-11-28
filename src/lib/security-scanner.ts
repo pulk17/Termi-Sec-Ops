@@ -940,7 +940,8 @@ async function scanContainers(
   // 3. Using tools like Trivy, Snyk Container, or Grype
   // 4. This should be implemented server-side or via CI/CD integration
   
-  console.log('Container scanning requires integration with tools like Trivy, Snyk Container, or Grype');
+  // Don't log this message as it appears in the terminal unnecessarily
+  // console.log('Container scanning requires integration with tools like Trivy, Snyk Container, or Grype');
   return [];
 }
 

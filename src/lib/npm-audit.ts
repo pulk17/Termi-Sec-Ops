@@ -283,19 +283,13 @@ export class NpmAuditClient {
     };
 
     try {
-      // Call the REAL npm audit API
-      const auditUrl = `${this.registryUrl}/-/npm/v1/security/audits`;
-      
-      const response = await fetch(auditUrl, {
+      // Call npm audit via server-side API route to avoid CORS issues
+      const response = await fetch('/api/scan/npm-audit', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'DevSecOps-Pipeline/1.0.0',
-          'npm-in-ci': 'false',
-          'npm-scope': '',
-          'npm-session': Date.now().toString()
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(packageLock)
+        body: JSON.stringify({ packages: dependencies })
       });
 
       if (!response.ok) {
